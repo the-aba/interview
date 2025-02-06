@@ -10,6 +10,11 @@ const makeRequest = async (route: string, method: string, body?: any) => {
         },
         body: body ? JSON.stringify(body) : undefined,
     })
+
+    if (response.status === 204) {
+        return
+    }
+
     return await response.json()
 }
 

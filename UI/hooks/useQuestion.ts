@@ -31,7 +31,13 @@ const useQuestion = () => {
         getRandomQuestion()
     }, [])
 
-    return {question, loading}
+    const submitResponse = async (answerId: any, questionId: any) => {
+        await makeRequest(
+            'questions/add-response?questionId=' + questionId + '&answerId=' + answerId,
+            'GET',
+        )
+    }
+    return {question, loading, submitResponse}
 }
 
 export default useQuestion

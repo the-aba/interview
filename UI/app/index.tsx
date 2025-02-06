@@ -13,6 +13,9 @@ export default function Index() {
             <Link href="/question">
                 <Text>Click here to get a random question.</Text>
             </Link>
+            <Link href="/responses">
+                <Text>Click here to view responses.</Text>
+            </Link>
         </View>
     )
 }

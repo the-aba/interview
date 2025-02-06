@@ -1,6 +1,6 @@
-import React from 'react'
-import {Link} from 'expo-router'
-import {StyleSheet, Text, View} from 'react-native'
+import React, {useState} from 'react'
+import {Link, router} from 'expo-router'
+import {Button, StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import useQuestion, {Answer} from '@/hooks/useQuestion'
 
 const styles = StyleSheet.create({
@@ -35,8 +35,9 @@ const styles = StyleSheet.create({
 })
 
 export default function Index() {
-    const {question, loading} = useQuestion()
+    const {question, loading, submitResponse} = useQuestion()
     const sortedAnswers = question?.answers.sort((a, b) => a.displayOrder - b.displayOrder)
+    const [selectedAnswer, setAnswer] = useState('')
     return (
         <View style={styles.container}>
             {loading && <Text>Loading...</Text>}
@@ -47,11 +48,38 @@ export default function Index() {
                         <Text>{question.text}</Text>
                     </View>
                     <View style={styles.questionSeparator} />
-                    {sortedAnswers?.map((answer: Answer) => (
-                        <View key={answer.answerId} style={styles.answerContainer}>
-                            <Text>{answer.text}</Text>
-                        </View>
-                    ))}
+                    {sortedAnswers?.map((answer: Answer) => {
+                        const styleToUse =
+                            answer.text == selectedAnswer
+                                ? [
+                                      styles.answerContainer,
+                                      {borderColor: '#000000', borderStyle: 'solid', borderWidth: 2},
+                                  ]
+                                : styles.answerContainer
+                        return (
+                            <TouchableOpacity
+                                key={answer.answerId}
+                                style={styleToUse}
+                                onPress={() => {
+                                    setAnswer(answer.text)
+                                }}
+                            >
+                                <Text>{answer.text}</Text>
+                            </TouchableOpacity>
+                        )
+                    })}
+                    <Button
+                        title="Submit"
+                        onPress={() => {
+                            let answerId = sortedAnswers?.find(
+                                (answer: Answer) => answer.text == selectedAnswer,
+                            )?.answerId
+                            if (answerId) {
+                                submitResponse(answerId, question.questionId)
+                            }
+                            router.push('/')
+                        }}
+                    />
                 </>
             )}
             <Link href="/">
