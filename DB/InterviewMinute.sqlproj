@@ -58,9 +58,13 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Question.sql" />
     <Build Include="dbo\Tables\Answer.sql" />
+    <Build Include="dbo\Tables\Response.sql" />
+    <Build Include="dbo\Stored Procedures\InsertResponse.sql" />
+    <Build Include="dbo\Stored Procedures\GetResponses.sql" />
   </ItemGroup>
 </Project>
